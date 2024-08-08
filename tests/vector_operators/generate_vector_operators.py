@@ -314,11 +314,13 @@ all_type_test_template = Template("""
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#if ${size} > 1
   resVec = testVec1;
   resVec.${swizzle} += testVec2;
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#endif
   resVec = testVec1;
   resVec.${swizzle} += testVec2.${swizzle};
   if (!check_vector_values(resVec, resArr)) {
@@ -347,11 +349,13 @@ all_type_test_template = Template("""
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#if ${size} > 1
   resVec = testVec1;
   resVec.${swizzle} -= testVec2;
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#endif
   resVec = testVec1;
   resVec.${swizzle} -= testVec2.${swizzle};
   if (!check_vector_values(resVec, resArr)) {
@@ -380,11 +384,13 @@ all_type_test_template = Template("""
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#if ${size} > 1
   resVec = testVec1;
   resVec.${swizzle} *= testVec2;
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#endif
   resVec = testVec1;
   resVec.${swizzle} *= testVec2.${swizzle};
   if (!check_vector_values(resVec, resArr)) {
@@ -413,11 +419,13 @@ all_type_test_template = Template("""
   if (!check_vector_values_div(resVec, resArr)) {
     resAcc[0] = false;
   }
+#if ${size} > 1
   resVec = testVec1;
   resVec.${swizzle} /= testVec2;
   if (!check_vector_values_div(resVec, resArr)) {
     resAcc[0] = false;
   }
+#endif
   resVec = testVec1;
   resVec.${swizzle} /= testVec2.${swizzle};
   if (!check_vector_values_div(resVec, resArr)) {
@@ -960,11 +968,13 @@ non_fp_assignment_test_template = Template("""
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#if ${size} > 1
   resVec = testVec1;
   resVec.${swizzle} %= testVec2;
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#endif
   resVec = testVec1;
   resVec.${swizzle} %= testVec2.${swizzle};
   if (!check_vector_values(resVec, resArr)) {
@@ -993,11 +1003,13 @@ non_fp_assignment_test_template = Template("""
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#if ${size} > 1
   resVec = testVec1;
   resVec.${swizzle} |= testVec2;
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#endif
   resVec = testVec1;
   resVec.${swizzle} |= testVec2.${swizzle};
   if (!check_vector_values(resVec, resArr)) {
@@ -1026,11 +1038,13 @@ non_fp_assignment_test_template = Template("""
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#if ${size} > 1
   resVec = testVec1;
   resVec.${swizzle} ^= testVec2;
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#endif
   resVec = testVec1;
   resVec.${swizzle} ^= testVec2.${swizzle};
   if (!check_vector_values(resVec, resArr)) {
@@ -1059,11 +1073,13 @@ non_fp_assignment_test_template = Template("""
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#if ${size} > 1
   resVec = testVec1;
   resVec.${swizzle} &= testVec2;
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#endif
   resVec = testVec1;
   resVec.${swizzle} &= testVec2.${swizzle};
   if (!check_vector_values(resVec, resArr)) {
@@ -1092,11 +1108,13 @@ non_fp_assignment_test_template = Template("""
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#if ${size} > 1
   resVec = testVec1;
   resVec.${swizzle} >>= testVec2;
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#endif
   resVec = testVec1;
   resVec.${swizzle} >>= testVec2.${swizzle};
   if (!check_vector_values(resVec, resArr)) {
@@ -1125,11 +1143,13 @@ non_fp_assignment_test_template = Template("""
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#if ${size} > 1
   resVec = testVec1;
   resVec.${swizzle} <<= testVec2;
   if (!check_vector_values(resVec, resArr)) {
     resAcc[0] = false;
   }
+#endif
   resVec = testVec1;
   resVec.${swizzle} <<= testVec2.${swizzle};
   if (!check_vector_values(resVec, resArr)) {
@@ -1249,8 +1269,13 @@ subscript_operator_test_template = Template("""
     // check subscript operator value
     for (int i = 0; i < ${size}; ++i) {
       if (subscriptVec1[i] != data[i] || subscriptVec2[i] != data[i]
+#if ${size} == 1
+        || subscriptVec1.${swizzle} != data[i]
+        || subscriptVec2.${swizzle} != data[i]
+#else
         || subscriptVec1.${swizzle}[i] != data[i]
         || subscriptVec2.${swizzle}[i] != data[i]
+#endif
         )
       {
         resAcc[0] = false;

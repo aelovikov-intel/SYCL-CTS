@@ -35,8 +35,10 @@ vector_element_type_template = Template("""
     CHECK(std::is_same_v<typename sycl::vec<${type}, ${size}>::element_type, ${type}>);
     sycl::vec<${type}, ${size}> vec;
     CHECK(std::is_same_v<typename sycl::vec<${type}, ${size}>::value_type, ${type}>);
+#if ${size} != 1
     CHECK(std::is_same_v<typename decltype(
         vec.template swizzle<${swizIndexes}>())::element_type, ${type}>);
+#endif
 """)
 
 vector_api_template = Template("""

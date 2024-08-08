@@ -207,7 +207,9 @@ void handleFPToUnsignedConv(sycl::vec<vecType, N>& inputVec) {
 
 #define DO_OPERATION_ON_SWIZZLE(N, inputVec, ResVariable, Op)                 \
   if constexpr (N == 1) {                                                     \
-    ResVariable = inputVec.template swizzle<sycl::elem::s0>().Op;             \
+    /* Not a swizzle, swizzle operations returns scalar reference. */         \
+    static_assert(decltype(inputVec)::size() == 1);                           \
+    ResVariable = inputVec.Op;                                                \
   } else if constexpr (N == 2) {                                              \
     ResVariable =                                                             \
         inputVec.template swizzle<sycl::elem::s0, sycl::elem::s1>().Op;       \
